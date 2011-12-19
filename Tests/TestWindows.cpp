@@ -6,16 +6,9 @@
 #include <sstream>
 #include <stdlib.h>
 
-#include <GL/GLee.h>
-#include <GL/glut.h>
-
-#include <SDL/SDL.h>
-#include "SDL_Helper.h"
-
 #include <LidarScanner.h>
 
 #include <ModelFile.h>
-
 
 #ifndef EPSILON
 const double epsilon = 1e-6;

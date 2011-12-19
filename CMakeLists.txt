@@ -58,7 +58,6 @@ ${PROJECTS}/LidarScan/ScanParamsClass.cpp
 ${PROJECTS}/ObjViewer/CameraClass.h
 ${PROJECTS}/VXLHelpers/VXLHelpers.cpp
 ${PROJECTS}/Integration/integration.cpp
-${PROJECTS}/SDLHelpers/SDLHelpers.cpp
 
 ${PROJECTS}/Tools/Tools.cpp
 
@@ -69,11 +68,8 @@ ${PROJECTS}/KDTree/KDTree.cpp
 
 
 set(Libraries
-gomp
 vnl vnl_algo vbl vbl_io vul vgl vgl_algo vil vsl
-glut GLU GL Xmu X11
-SDL 
-vtkHybrid
+${VTK_LIBRARIES}
 boost_program_options-mt
 )
 

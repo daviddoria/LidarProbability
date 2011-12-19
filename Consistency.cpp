@@ -4,20 +4,13 @@
 #include <fstream>
 #include <string>
 #include <sstream>
-#include <stdlib.h>
+#include <cstdlib>
 #include <iomanip>
 
 #include "Consistency.h"
 #include <ComparableModels/ComparableModels.h>
 
-#include <omp.h>
-
-#include <GL/glut.h>
-
 #include <vgl/vgl_distance.h>
-
-#include <SDL/SDL.h>
-#include <SDLHelpers/SDLHelpers.h>
 
 #include <VXLHelpers/VXLHelpers.h>
 

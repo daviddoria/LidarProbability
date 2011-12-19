@@ -15,9 +15,6 @@
 
 #include <vgl/vgl_distance.h>
 
-#include <SDL/SDL.h>
-#include <SDLHelpers/SDLHelpers.h>
-
 #include <VXLHelpers/VXLHelpers.h>
 
 #include <Tools/Tools.h>
