@@ -14,7 +14,7 @@
 
 #include <VXLHelpers/VXLHelpers.h>
 
-#include <Tools/Tools.h>
+#include <Tools.h>
 
 #include <LidarScan/LidarScanner.h>
 #include <ModelFile/ModelFile.h>

@@ -1,0 +1,10 @@
+#include <iostream>
+
+#include "../LidarStrip.h"
+#include "../LidarPoint.h"
+
+
+int main()
+{
+  return 0;
+}

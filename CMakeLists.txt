@@ -12,21 +12,18 @@ set(Boost_USE_MULTITHREADED ON)
 FIND_PACKAGE(Boost 1.38 COMPONENTS program_options required)
 
 ######################################
-set(PROJECTS /media/portable/Projects/src)
+set(TOOLS ${CMAKE_CURRENT_SOURCE_DIR}/../Tools)
 
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fopenmp -DGRAPHICS")
+set(LidarScanDir ${CMAKE_CURRENT_SOURCE_DIR}/LidarScan/)
+set(GeometryDir ${TOOLS}/Geometry/)
 
-set(FileFormatsDir ${PROJECTS}/FileFormats/)
-set(DisplayDir ${PROJECTS}/Geometry/Display)
-set(LidarScanDir ${PROJECTS}/LidarScan/)
-set(GeometryDir ${PROJECTS}/Geometry/)
-
-INCLUDE_DIRECTORIES(${INCLUDE_DIRECTORIES}
-${PROJECTS}
+INCLUDE_DIRECTORIES(
 ${Boost_INCLUDE_DIRS}
+${CMAKE_CURRENT_SOURCE_DIR}
+${TOOLS}
 )
 
-LINK_DIRECTORIES(${LINK_DIRECTORIES} 
+LINK_DIRECTORIES(
 ${Boost_LIBRARY_DIRS}
 )
 
@@ -34,7 +31,7 @@ set(Sources
 Consistency.cpp
 #Confidence.cpp
 
-${PROJECTS}/ComparableModels/ComparableModels.cpp
+ComparableModels/ComparableModels.cpp
 
 ${GeometryDir}/Angles.cpp 
 ${GeometryDir}/Color.cpp 
@@ -47,28 +44,29 @@ ${GeometryDir}/OrientedPoint.cpp
 ${GeometryDir}/Geometry.cpp
 ${GeometryDir}/Helpers.cpp
 
-${PROJECTS}/ModelFile/ModelFile.cpp
+${TOOLS}/ModelFile/ModelFile.cpp
 
 ${LidarScanDir}/LidarPoint.cpp 
 ${LidarScanDir}/LidarStrip.cpp 
 ${LidarScanDir}/LidarScan.cpp 
 ${LidarScanDir}/LidarScanner.cpp
-${PROJECTS}/LidarScan/ScanParamsClass.cpp
+${LidarScanDir}/ScanParamsClass.cpp
 
-${PROJECTS}/ObjViewer/CameraClass.h
-${PROJECTS}/VXLHelpers/VXLHelpers.cpp
-${PROJECTS}/Integration/integration.cpp
+#${PROJECTS}/ObjViewer/CameraClass.h
+${TOOLS}/VXLHelpers/VXLHelpers.cpp
+${TOOLS}/Integration/integration.cpp
 
-${PROJECTS}/Tools/Tools.cpp
+${TOOLS}/Tools.cpp
 
-${PROJECTS}/VTKHelpers/Octree.cpp
-${PROJECTS}/KDTree/KDTree.cpp
+${TOOLS}/VTKHelpers/Octree.cpp
+${TOOLS}/KDTree/KDTree.cpp
 
 )
 
+set(VXLLibraries vnl vnl_algo vbl vbl_io vul vgl vgl_algo vil vsl)
 
 set(Libraries
-vnl vnl_algo vbl vbl_io vul vgl vgl_algo vil vsl
+${VXLLibraries}
 ${VTK_LIBRARIES}
 boost_program_options-mt
 )
@@ -123,8 +121,8 @@ TARGET_LINK_LIBRARIES(MyLibs ${Libraries})
 # TARGET_LINK_LIBRARIES(TestLineBetweenPoints ${Libraries} MyLibs)
 
 ###########################################################
-ADD_EXECUTABLE(HeatMap HeatMap.cpp)
-TARGET_LINK_LIBRARIES(HeatMap ${Libraries} MyLibs)
+# ADD_EXECUTABLE(HeatMap HeatMap.cpp)
+# TARGET_LINK_LIBRARIES(HeatMap ${Libraries} MyLibs)
 
 ###########################################################
 # ADD_EXECUTABLE(UsedScenePoints UsedScenePoints.cpp)

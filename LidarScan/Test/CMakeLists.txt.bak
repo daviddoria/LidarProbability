@@ -1,0 +1,59 @@
+ADD_EXECUTABLE(TestScanner TestScanner.cpp
+${LidarSources}
+${FileFormatSources}
+${GeometrySources}
+${PROJECTS}/SDLHelpers/SDLHelpers.cpp
+${PROJECTS}/VXLHelpers/VXLHelpers.cpp
+${PROJECTS}/Tools/Tools.cpp
+)
+TARGET_LINK_LIBRARIES(TestScanner
+vcl vul vgl vnl
+vtkRendering vtkGraphics vtkHybrid vtkImaging vtkIO vtkFiltering vtkCommon
+glut GLU GL Xmu X11 
+SDL SDL_image
+)
+
+ADD_EXECUTABLE(TestStrip TestStrip.cpp
+${LidarSources}
+${FileFormatSources}
+${GeometrySources}
+${PROJECTS}/SDLHelpers/SDLHelpers.cpp
+${PROJECTS}/VXLHelpers/VXLHelpers.cpp
+${PROJECTS}/Tools/Tools.cpp
+)
+TARGET_LINK_LIBRARIES(TestStrip
+vcl vul vgl vnl
+vtkRendering vtkGraphics vtkHybrid vtkImaging vtkIO vtkFiltering vtkCommon
+glut GLU GL Xmu X11 
+SDL SDL_image
+)
+
+ADD_EXECUTABLE(TestScan TestScan.cpp
+${LidarSources}
+${FileFormatSources}
+${GeometrySources}
+${PROJECTS}/SDLHelpers/SDLHelpers.cpp
+${PROJECTS}/VXLHelpers/VXLHelpers.cpp
+${PROJECTS}/Tools/Tools.cpp
+)
+TARGET_LINK_LIBRARIES(TestScan
+vcl vul vgl vnl
+vtkRendering vtkGraphics vtkHybrid vtkImaging vtkIO vtkFiltering vtkCommon
+glut GLU GL Xmu X11 
+SDL SDL_image
+)
+
+ADD_EXECUTABLE(TestPoint TestPoint.cpp
+${LidarSources}
+${FileFormatSources}
+${GeometrySources}
+${PROJECTS}/SDLHelpers/SDLHelpers.cpp
+${PROJECTS}/VXLHelpers/VXLHelpers.cpp
+${PROJECTS}/Tools/Tools.cpp
+)
+TARGET_LINK_LIBRARIES(TestPoint
+vcl vul vgl vnl
+vtkRendering vtkGraphics vtkHybrid vtkImaging vtkIO vtkFiltering vtkCommon
+glut GLU GL Xmu X11 
+SDL SDL_image
+)

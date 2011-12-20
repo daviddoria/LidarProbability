@@ -1,0 +1,198 @@
+#include <iostream>
+#include <vector>
+
+#include "../LidarScanner.h"
+#include "../LidarScan.h"
+#include "../LidarStrip.h"
+#include "../LidarPoint.h"
+
+#include "/home/doriad/Projects/FileFormats/src/ObjFile.h"
+
+#include <vul/vul_timer.h>
+
+#include <omp.h>
+
+string TRUCKPATH = "/home/doriad/Projects/LidarScan/Data/Truck.obj";
+
+void Output();
+void Angles();
+
+void AcquirePointDirection();
+void AcquirePointThetaPhi();
+
+//void AcquireStripAlphaBetaRadius();
+void AcquireStripTheta();
+
+void AcquireScene();
+
+void TestWriteLid();
+void TestReadLid();
+
+int main()
+{
+  //  Output();
+  //  Angles();
+  
+//	AcquirePointThetaPhi();
+//	AcquirePointDirection();
+	
+//	AcquireStripTheta();
+//  	AcquireStripAlphaBetaRadius();
+	
+//	AcquireScene();
+	
+	TestWriteLid();
+	TestReadLid();	
+	
+  return 0;
+}
+
+
+void Output()
+{
+	LidarScanner Scanner;
+	cout << Scanner;
+}
+
+void Angles()
+{
+	LidarScanner Scanner;
+
+	cout << "Theta Angles: " << endl
+			<< "-------------" << endl;
+
+	for(int i = 0; i < Scanner.getThetaPoints(); i++)
+		cout << Scanner.getThetaAngle(i) << endl;
+
+	cout << "Phi Angles: " << endl
+			<< "-------------" << endl;
+
+	for(int i = 0; i < Scanner.getPhiPoints(); i++)
+		cout << Scanner.getPhiAngle(i) << endl;
+}
+
+void AcquirePointThetaPhi()
+{
+	cout << "AcquirePointThetaPhi()" << endl
+			<< "----------------------" << endl;
+
+	LidarScanner Scanner;
+	Scanner.setZ(20);
+	cout << Scanner << endl;
+	
+	ObjFile Scene(TRUCKPATH);
+	cout << Scene << endl;
+	
+	double theta = 0;
+	double phi = 0;
+	LidarPoint Point = Scanner.AcquirePoint(Scene, theta, phi, 0);
+
+	cout << Point << endl;
+}
+
+void AcquirePointDirection()
+{
+	cout << "AcquirePointDirection()" << endl
+		<< "----------------------" << endl;
+
+	LidarScanner Scanner;
+	Scanner.setZ(20);
+	cout << Scanner << endl;
+	
+	ObjFile Scene(TRUCKPATH);
+	cout << Scene << endl;
+	
+	geom_Vector3 Direction(0,0,-1);
+	LidarPoint Point = Scanner.AcquirePoint(Scene, Direction, 0);
+
+	cout << "LidarPoint: " << Point << endl;
+}
+
+/*
+void AcquireStripAlphaBetaRadius()
+{
+	cout << "AcquireStripAlphaBetaRadius()" << endl
+			<< "----------------------" << endl;
+
+	LidarScanner Scanner;
+		
+	cout << "Scanner: " << endl << Scanner << endl;
+	ObjFile Scene(TRUCKPATH);
+	
+	cout << "Scene: " << endl << Scene << endl;
+
+	double alpha = 0;
+	double beta = 0;
+	double radius = 15;
+	LidarStrip Strip = Scanner.AcquireStrip(Scene, rad2deg(alpha), rad2deg(beta), radius, 1);
+
+	cout << Strip << endl;
+}
+*/
+
+void AcquireStripTheta()
+{
+	cout << "AcquireStripTheta()" << endl
+			<< "----------------------" << endl;
+
+	LidarScanner Scanner;
+	Scanner.setZ(15);
+	cout << "Scanner: " << endl << Scanner << endl;
+	
+	ObjFile Scene(TRUCKPATH);
+	cout << "Scene: " << endl << Scene << endl;
+
+	
+	double theta = 0;
+	
+	vul_timer timer;
+	timer.mark();
+
+	LidarStrip Strip = Scanner.AcquireStrip(Scene, deg2rad(theta));
+		
+	cout << "time: " << timer.real() << endl;
+	//cout << Strip << endl;
+}
+
+void AcquireScene()
+{
+	cout << "AcquireScene()" << endl
+			<< "----------------------" << endl;
+
+	LidarScanner Scanner;
+	Scanner.setZ(15);
+	cout << "Scanner: " << endl << Scanner << endl;
+	
+	ObjFile Scene(TRUCKPATH);
+	cout << "Scene: " << endl << Scene << endl;
+
+	LidarScan Scan = Scanner.AcquireScene(Scene);
+
+	cout << Scan << endl;
+}
+
+void TestWriteLid()
+{
+	cout << "TestWriteLid()" << endl
+			<< "----------------------" << endl;
+	
+	LidarScanner Scanner;
+	Scanner.setZ(20);
+
+	ObjFile Scene("/home/doriad/Projects/LidarScan/Data/Truck.obj");
+  
+	cout << "Scanning scene..." << endl;
+
+	LidarScan Scan = Scanner.AcquireScene(Scene);
+
+	cout << "Writing .lid file..." << endl;
+
+	Scan.WriteLidFile("truck_SP_0_20_V_0_0.lid");
+}
+
+void TestReadLid()
+{
+	cout << "TestReadLid()" << endl
+			<< "----------------------" << endl;
+	LidarScan Scan("truck_SP_0_20_V_0_0.lid");
+}

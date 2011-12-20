@@ -1,0 +1,29 @@
+set(LIDARSCAN_SRC /home/doriad/Projects/LidarScan/src)
+
+ADD_EXECUTABLE(TestScanner TestScanner.cpp
+				${LidarSources}
+			  ${FileFormatSources}
+			  ${GeometrySources}
+)
+TARGET_LINK_LIBRARIES(TestScanner vul vcl)
+
+ADD_EXECUTABLE(TestStrip TestStrip.cpp
+			  ${LidarSources}
+			  ${FileFormatSources}
+			  ${GeometrySources}
+)
+TARGET_LINK_LIBRARIES(TestStrip)
+
+ADD_EXECUTABLE(TestScan TestScan.cpp
+			  ${LidarSources}
+			  ${FileFormatSources}
+			  ${GeometrySources}
+)
+TARGET_LINK_LIBRARIES(TestScan)
+
+ADD_EXECUTABLE(TestPoint TestPoint.cpp
+			  ${LidarSources}
+			  ${FileFormatSources}
+			  ${GeometrySources}
+)
+TARGET_LINK_LIBRARIES(TestPoint)

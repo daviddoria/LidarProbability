@@ -1,0 +1,54 @@
+cmake_minimum_required(VERSION 2.6)
+
+PROJECT(Lidar)
+
+FIND_PACKAGE(VXL REQUIRED)
+INCLUDE(${VXL_CMAKE_DIR}/UseVXL.cmake)
+
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fopenmp -DGRAPHICS")
+#set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -openmp")
+
+SUBDIRS(Test)
+
+FIND_PACKAGE(VTK REQUIRED)
+INCLUDE(${VTK_USE_FILE})
+
+set(PROJECTS /media/portable/Projects/src)
+
+set(GeometryDir ${PROJECTS}/VNLGeometry/)
+set(LIDARSCAN_SRC ${PROJECTS}/LidarScan/)
+
+set(Sources
+${LIDARSCAN_SRC}/LidarPoint.cpp 
+${LIDARSCAN_SRC}/LidarStrip.cpp 
+${LIDARSCAN_SRC}/LidarScan.cpp 
+${LIDARSCAN_SRC}/LidarScanner.cpp
+${LIDARSCAN_SRC}/ScanParamsClass.cpp
+
+${GeometryDir}/Angles.cpp 
+${GeometryDir}/Color.cpp 
+${GeometryDir}/Ray.cpp 
+${GeometryDir}/Triangle.cpp
+${GeometryDir}/Geometry.cpp
+
+${PROJECTS}/VXLHelpers/VXLHelpers.cpp
+${PROJECTS}/Tools/Tools.cpp
+
+${PROJECTS}/Octree/Octree.cpp
+${PROJECTS}/ModelFile/ModelFile.cpp
+${PROJECTS}/VNLGeometry/Geometry.cpp
+)
+
+set(Libraries
+vcl vul vgl vnl
+rrel
+vtkRendering vtkGraphics vtkHybrid vtkImaging vtkIO vtkFiltering vtkCommon
+glut GLU GL Xmu X11
+)
+
+INCLUDE_DIRECTORIES(${INCLUDE_DIRECTORIES} ${PROJECTS})
+
+###################################################
+# 
+# ADD_EXECUTABLE(SingleScan SingleScan.cpp ${Sources} )
+# TARGET_LINK_LIBRARIES(SingleScan ${Libraries} )
