@@ -27,15 +27,22 @@
 
 using std::cout; using std::clog;
 
-double Consistency::CalculateConsistency(void)
+Consistency::Consistency(const ComparableModels &comparable, const double mismatch) : Comparable(comparable), Mismatch(mismatch), ShowProgress(true)
+{
+  if(comparable.Valid == false)
+  {
+    std::cout << "Comparable models have not been initialized!" << std::endl;
+    exit(-1);
+  }
+}
+
+double Consistency::CalculateConsistency() const
 {
   /*
   inputs:
   a pair of comparable models
   clutter and mismatch parameters
   */
-
-  double ModelDepth, WorldDepth;
 
   std::vector<double> Consistencies;
 
@@ -49,20 +56,20 @@ double Consistency::CalculateConsistency(void)
   {
     for(unsigned int i = 0; i < Comparable.UsedWorldPoints.size(); i++)
     {
-            vgl_point_3d<double> WorldCoord = Comparable.GetMatchingWorldCoord(i);
-            vgl_point_3d<double> ModelCoord = Comparable.GetMatchingModelPoint(i);
-            ModelDepth = vgl_distance(Comparable.Scanner.ScanParams.getLocation(), ModelCoord);
-            WorldDepth = vgl_distance(Comparable.Scanner.ScanParams.getLocation(), WorldCoord);
-            double consistency = Compute(WorldDepth, ModelDepth);
-            Consistencies.push_back(consistency);
-            //Comparable.World.Points_[Comparable.UsedWorldPoints[i]].ConsistencyDistance_ = WorldDepth - ModelDepth; //if this is negative, uninformative, else, free space violation
+      vgl_point_3d<double> WorldCoord = Comparable.GetMatchingWorldCoord(i);
+      vgl_point_3d<double> ModelCoord = Comparable.GetMatchingModelPoint(i);
+      double ModelDepth = vgl_distance(Comparable.Scanner.ScanParams.getLocation(), ModelCoord);
+      double WorldDepth = vgl_distance(Comparable.Scanner.ScanParams.getLocation(), WorldCoord);
+      double consistency = Compute(WorldDepth, ModelDepth);
+      Consistencies.push_back(consistency);
+      //Comparable.World.Points_[Comparable.UsedWorldPoints[i]].ConsistencyDistance_ = WorldDepth - ModelDepth; //if this is negative, uninformative, else, free space violation
 
     }
     /*
     //count the miss points as consistent
     for(unsigned int i = 0; i < Comparable.MissPoints; i++)
     {
-            Consistencies.push_back(1.0); //consistent
+      Consistencies.push_back(1.0); //consistent
     }
     */
   }
@@ -79,20 +86,20 @@ double Consistency::CalculateConsistency(void)
 }
 
 
-double Consistency::IdealScore(void)
+double Consistency::IdealScore()
 {
   double ideal = static_cast<double>(Comparable.TotalPoints());
   return ideal;
 }
 
-double Consistency::Compute(const double WorldDepth, const double ModelDepth)
+double Consistency::Compute(const double WorldDepth, const double ModelDepth) const
 {
   if((WorldDepth - ModelDepth) > Mismatch)
   {
-          return 0.0;
+    return 0.0;
   }
   else
   {
-          return 1.0;
+    return 1.0;
   }
 }

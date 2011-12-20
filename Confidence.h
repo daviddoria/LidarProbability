@@ -8,25 +8,23 @@
 
 class Confidence
 {
-  public:
-    //members
-    double SphereSize;
-    ModelFile Model, World;
-    bool ShowProgress;
+public:
 
-    //constructors
-    Confidence(ModelFile &model, const ModelFile &world, const double spheresize) : Model(model), World(world), SphereSize(spheresize), ShowProgress(true){}
+  double SphereSize;
+  ModelFile Model, World;
+  bool ShowProgress;
 
-    //functions
-    void DeductInformation(const vgl_point_3d<double> &ModelIntersection);
-    void DeductAllPointInformation(void);
-    double CalculateConfidence(void);
-    void ResetInformation();
-    std::vector<double> getTotalInformation() const;
-    std::vector<double> getRemainingInformation() const;
+  Confidence(const ModelFile &model, const ModelFile &world, const double spheresize);
 
-    double SumRemainingInformation() const;
-    double SumTotalInformation() const;
+  void DeductInformation(const vgl_point_3d<double> &ModelIntersection);
+  void DeductAllPointInformation();
+  double CalculateConfidence();
+  void ResetInformation();
+  std::vector<double> getTotalInformation() const;
+  std::vector<double> getRemainingInformation() const;
+
+  double SumRemainingInformation() const;
+  double SumTotalInformation() const;
 };
 
 #endif

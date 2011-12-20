@@ -41,25 +41,17 @@ public:
 class Consistency
 {
 public:
-  //members
+
+  Consistency(const ComparableModels &comparable, const double mismatch);
+
+private:
   double Mismatch;
   ComparableModels Comparable;
   bool ShowProgress;
 
-  //constructors
-  Consistency(ComparableModels &comparable, const double mismatch) : Comparable(comparable), Mismatch(mismatch), ShowProgress(true)
-  {
-    if(comparable.Valid_ == false)
-    {
-      std::cout << "Comparable models have not been initialized!" << std::endl;
-      exit(-1);
-    }
-  }
-
-  //functions
-  double Compute(const double WorldDepth, const double ModelDepth);
-  double CalculateConsistency(void);
-  double IdealScore(void);
+  double Compute(const double WorldDepth, const double ModelDepth) const;
+  double CalculateConsistency() const;
+  double IdealScore();
 };
 
 #endif

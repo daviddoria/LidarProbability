@@ -17,7 +17,7 @@
 
 #include <VXLHelpers/VXLHelpers.h>
 
-#include <Tools/Tools.h>
+#include <Tools.h>
 
 #include <LidarScan/LidarScanner.h>
 #include <ModelFile/ModelFile.h>
@@ -30,25 +30,29 @@
 
 #include <boost/progress.hpp>
 
-double Confidence::CalculateConfidence(void)
+Confidence::Confidence(const ModelFile &model, const ModelFile &world, const double spheresize) :
+Model(model), World(world), SphereSize(spheresize), ShowProgress(true)
+{}
+
+double Confidence::CalculateConfidence()
 {
   //inputs: a ModelFile which has been annotated with information contributions at each point
   //outputs: a Confidence value (0,1)
 
-  if(Model.SumTotalInformation() == 0.0)
+  if(Model.getTotalInformation() == 0.0)
   {
     std::cout << "File " << Model.getName() << " contains no informations! Quitting..." << std::endl;
     exit(-1);
   }
 
   std::clog << "Calculating Confidence" << endl << "---------------" << endl;
-  double PreConfidence = 1.0 - Model.SumRemainingInformation();
+  double PreConfidence = 1.0 - Model.getRemainingInformation();
   std::clog << "Confidence before scan: " << PreConfidence << endl;
 
   DeductAllPointInformation();
 
   //if there is no remaining information, this means all the information has been "seen" so the confidence is high
-  double RemainingInfo = Model.SumRemainingInformation();
+  double RemainingInfo = Model.getRemainingInformation();
   if(RemainingInfo > 1.0)
   {
     RemainingInfo = 1.0;
@@ -110,7 +114,7 @@ void Confidence::DeductAllPointInformation(void)
 
 void Confidence::ResetInformation()
 {
-  for(unsigned int i = 0; i < NumPoints(); i++)
+  for(unsigned int i = 0; i < Model.NumPoints(); i++)
   {
     Model.Points_[i].ResetInformation();
   }
@@ -118,10 +122,10 @@ void Confidence::ResetInformation()
 
 std::vector<double> Confidence::getTotalInformation() const
 {
-  std::vector<double> Information(Points_.size());
-  for(unsigned int i = 0; i < Points_.size(); i++)
+  std::vector<double> Information(Model.Points_.size());
+  for(unsigned int i = 0; i < Model.Points_.size(); i++)
   {
-    Information[i] = Model.Points_[i].getTotalInformation();
+    Information[i] = Model.getTotalInformation(i);
   }
 
   return Information;
@@ -129,10 +133,10 @@ std::vector<double> Confidence::getTotalInformation() const
 
 std::vector<double> Confidence::getRemainingInformation() const
 {
-  std::vector<double> Information(Points_.size());
-  for(unsigned int i = 0; i < Points_.size(); i++)
+  std::vector<double> Information(Model.Points_.size());
+  for(unsigned int i = 0; i < Model.Points_.size(); i++)
   {
-    Information[i] = Model.Points_[i].getRemainingInformation();
+    Information[i] = Model.getRemainingInformation(i);
   }
 
   return Information;

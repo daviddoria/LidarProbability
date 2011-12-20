@@ -49,8 +49,8 @@ int main(int argc, char *argv[])
 
   if(vm.count("help"))
   {
-          cout << desc << endl;
-          exit(-1);
+    cout << desc << endl;
+    exit(-1);
   }
   CheckRequiredArgs(vm);
 

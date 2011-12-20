@@ -27,7 +27,7 @@ LINK_DIRECTORIES(${Boost_LIBRARY_DIRS})
 
 set(Sources
 Consistency.cpp
-#Confidence.cpp
+Confidence.cpp
 
 ComparableModels/ComparableModels.cpp
 
