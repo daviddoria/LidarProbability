@@ -23,9 +23,7 @@ ${CMAKE_CURRENT_SOURCE_DIR}
 ${TOOLS}
 )
 
-LINK_DIRECTORIES(
-${Boost_LIBRARY_DIRS}
-)
+LINK_DIRECTORIES(${Boost_LIBRARY_DIRS})
 
 set(Sources
 Consistency.cpp
@@ -131,3 +129,5 @@ TARGET_LINK_LIBRARIES(MyLibs ${Libraries})
 ###########################################################
 # ADD_EXECUTABLE(WindowSlide WindowSlide.cpp ${Sources})
 # TARGET_LINK_LIBRARIES(WindowSlide ${Libraries} MyLibs)
+
+add_subdirectory(GUI)
